@@ -46,16 +46,14 @@ model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='adam')
 model.fit(trainX, trainY, epochs=50, batch_size=1, verbose=2)
 
-# Save the model architecture to a JSON file
+
+
 model_json = model.to_json()
 with open("model_architecture.json", "w") as json_file:
     json_file.write(model_json)
 
-# Save the model weights to an HDF5 file
 model.save_weights("model_weights.h5")
 
-# The rest of your code for predictions and visualization
-# ...
 
 
 

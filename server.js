@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const app = express();
+const axios = require('axios'); // Import the axios librarynp
 const port = 3000;
 let data = [];
 
@@ -16,10 +17,9 @@ function getCurrentDateTime() {
 
 function performLongPolling() {
   return new Promise((resolve, reject) => {
-    fetch('https://blr1.blynk.cloud/external/api/get?token=HLbiwdCZek4VRg6o_3SD5dKveW5zLu6f&v0')
-      .then(response => response.json())
-      .then(data => {
-        resolve(data);
+    axios.get('https://blr1.blynk.cloud/external/api/get?token=HLbiwdCZek4VRg6o_3SD5dKveW5zLu6f&v0')
+      .then(response => {
+        resolve(response.data); // response.data is the actual response content
       })
       .catch(error => {
         reject(error);
@@ -43,7 +43,7 @@ function startLongPollingAndWriting() {
   performLongPolling()
     .then(responseData => {
       const dateTime = getCurrentDateTime();
-      const waterLevel = 10; // Adjust key as per the actual response structure
+      const waterLevel = responseData; // Adjust key as per the actual response structure
       const rainfall = 0; // Replace this with actual rainfall data
       data.push(`${dateTime},${rainfall},${waterLevel}`); // Add data to the array
       console.log(data);
