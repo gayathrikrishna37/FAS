@@ -38,17 +38,17 @@ def make_prediction(new_water_level):
 
 # Function to write predicted water levels to a file
 def write_to_file(data):
-    with open('predicted_water_levels.txt', 'w') as file:
+    with open('public\predicted_water_levels.txt', 'w') as file:
         for value in data:
             file.write(str(value) + '\n')
 
 # Simulate receiving new data and making predictions every 5 seconds
-prediction_interval = 5  # seconds
-write_interval = 60  # seconds
+prediction_interval = 600  # seconds
+write_interval = 6000     # seconds
 last_write_time = time.time()
 
 while True:
-    new_data = pandas.read_csv('LiveData.csv', sep=',')
+    new_data = pandas.read_csv('generated_data.csv', sep=',')
     new_water_level = new_data['waterlevel'].values
     predicted_value = make_prediction(new_water_level)
     predicted_water_levels.append(predicted_value)
@@ -59,7 +59,6 @@ while True:
         write_to_file(predicted_water_levels)
         last_write_time = current_time
     
-    print(predicted_water_levels)
     time.sleep(prediction_interval)
 
 

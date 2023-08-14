@@ -3,10 +3,36 @@
 <head>
     <title>Predicted Water Levels</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>ojdoqjb</h1>
-    <canvas id="waterLevelChart"></canvas>
+    <div class="header">
+        <span><h1>Flood Alarm System - </h1></span>
+        <div class="date-time">
+            <span class="date" id="date">84</span>
+            <span class="time" id="time">6854</span>
+        </div>
+    </div>
+    <div class="levels">
+        <div class="Predicted-water-level" id="Predicted-water-level">
+            <h3>predicted water level</h3>
+            <span id="predicted-level">030m</span>
+        </div>
+        <div class="water-level" id="Current-water-level">
+            <h3>Current water level</h3>
+            <span id="Current-level">030m</span>
+        </div>
+        <div class="rain-fall-level alert" id="rain-fall-level">
+            <h3>Rainfall level</h3>
+            <span id="level">30m</span>
+        </div>
+    </div>
+    <canvas class="graph" id="waterLevelChart"></canvas>
+    <p>Current Water Level: <span id="waterLevel">Loading...</span></p>
+
     <Script src="index.js"></Script>
+    <script src="../server.js"></script>
+
+
 </body>
 </html>

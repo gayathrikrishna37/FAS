@@ -4,7 +4,7 @@ const app = express();
 const axios = require('axios'); // Import the axios librarynp
 const port = 3000;
 let data = [];
-
+let level;
 function getCurrentDateTime() {
   const now = new Date();
   const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -44,6 +44,7 @@ function startLongPollingAndWriting() {
     .then(responseData => {
       const dateTime = getCurrentDateTime();
       const waterLevel = responseData; // Adjust key as per the actual response structure
+      level = waterLevel
       const rainfall = 0; // Replace this with actual rainfall data
       data.push(`${dateTime},${rainfall},${waterLevel}`); // Add data to the array
       console.log(data);
@@ -52,14 +53,13 @@ function startLongPollingAndWriting() {
       console.error('Error during long polling:', error);
     })
     .finally(() => {
-      setTimeout(startLongPollingAndWriting, 3000);
+      setTimeout(startLongPollingAndWriting, 10000);
     });
 }
 
 startLongPollingAndWriting();
-
-// Schedule data writing every 1 minute
-setInterval(writeDataToFile, 60000);
+// Schedule data writing every 2hr
+setInterval(writeDataToFile,  2 * 60 * 60 * 1000);
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);

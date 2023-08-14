@@ -1,0 +1,50 @@
+#define BLYNK_PRINT Serial
+
+
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+#define TRIGGERPIN D5
+#define ECHOPIN    D6
+// You should get Auth Token in the Blynk App.
+// Go to the Project Settings (nut icon).
+char auth[] = "HLbiwdCZek4VRg6o_3SD5dKveW5zLu6f";
+
+//char ssid[] = "Nord";//your wifi name
+//char pass[] = "gayathri"; //your wifi password
+char ssid[] = "CATHODE HIGH SPEED KARTHIKA";
+char pass[] = "AJITHA@111222";
+#define BLYNK_AUTH_TOKEN "HLbiwdCZek4VRg6o_3SD5dKveW5zLu6f"
+
+WidgetLCD lcd(V1);
+
+void setup()
+{
+  // Debug console
+  Serial.begin(9600);
+pinMode(TRIGGERPIN, OUTPUT);
+  pinMode(ECHOPIN, INPUT);
+  Blynk.begin(auth, ssid, pass);
+  lcd.clear(); 
+  lcd.print(0, 0, "Distance in cm");
+}
+void loop()
+{
+  lcd.clear();
+  lcd.print(0, 0, "Distance in cm"); // use: (position X: 0-15, position Y: 0-1, "Message you want to print")
+  long duration, distance;
+  digitalWrite(TRIGGERPIN, LOW);  
+  delayMicroseconds(3); 
+  digitalWrite(TRIGGERPIN, HIGH);
+  delayMicroseconds(12); 
+  digitalWrite(TRIGGERPIN, LOW);
+  duration = pulseIn(ECHOPIN, HIGH);
+  distance = (duration/2) / 29.1;
+  distance = (distance*(34.2466))/100;
+  Serial.print(distance);
+  Serial.println("m"); 
+  Blynk.virtualWrite(V0, distance);
+  lcd.print(7, 1, distance);
+  Blynk.run();
+  delay(1000);
+
+}
